@@ -1,0 +1,30 @@
+{
+  "name": "@rytestack/cli",
+  "version": "0.1.0",
+  "description": "CLI tools for Rytestack framework",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "rytestack": "dist/bin.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/bin.ts --dts",
+    "dev": "tsup src/index.ts src/bin.ts --dts --watch"
+  },
+  "keywords": ["framework", "cli", "web", "ssr", "react", "vue", "svelte"],
+  "author": "Rytestack Team",
+  "license": "MIT",
+  "dependencies": {
+    "@rytestack/core": "workspace:*",
+    "commander": "^11.0.0",
+    "inquirer": "^9.2.10",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "listr2": "^7.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "tsup": "^7.2.0",
+    "@types/inquirer": "^9.0.3"
+  }
+}
