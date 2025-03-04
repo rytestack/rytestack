@@ -1,0 +1,31 @@
+{
+  "name": "create-rytestack",
+  "version": "0.1.0",
+  "description": "Create a new Rytestack project",
+  "main": "dist/index.js",
+  "bin": {
+    "create-rytestack": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --dts",
+    "dev": "tsup src/index.ts --dts --watch"
+  },
+  "keywords": [
+    "rytestack",
+    "create",
+    "generator"
+  ],
+  "author": "Rytestack Team",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.0.0",
+    "inquirer": "^9.2.10",
+    "ora": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "typescript": "^5.2.2",
+    "tsup": "^7.2.0"
+  }
+}

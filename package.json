@@ -1,13 +1,37 @@
 {
   "name": "rytestack",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A modern multi-framework web development toolkit",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "publish-packages": "turbo run build --filter=./packages/* && changeset publish",
+    "version-packages": "changeset version",
+    "release": "pnpm run build && pnpm run version-packages && pnpm run publish-packages"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "keywords": [
+    "framework",
+    "web",
+    "ssr",
+    "react",
+    "vue",
+    "svelte",
+    "typescript"
+  ],
+  "author": "Rytestack Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "turbo": "^1.10.13",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.6.12"
 }
