@@ -1,0 +1,22 @@
+{
+  "name": "@rytestack/i18n",
+  "version": "0.1.0",
+  "description": "Internationalization utilities for Rytestack framework",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --dts",
+    "dev": "tsup src/index.ts --dts --watch"
+  },
+  "keywords": ["framework", "i18n", "internationalization", "translation"],
+  "author": "Rytestack Team",
+  "license": "MIT",
+  "dependencies": {
+    "@rytestack/core": "workspace:*",
+    "intl-messageformat": "^10.5.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "tsup": "^7.2.0"
+  }
+}
