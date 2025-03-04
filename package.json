@@ -1,6 +1,6 @@
 {
   "name": "rytestack",
-  "version": "0.1.0",
+  "version": "0.1.1-beta.0",
   "private": true,
   "description": "A modern multi-framework web development toolkit",
   "scripts": {
