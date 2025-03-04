@@ -1,0 +1,24 @@
+{
+  "name": "@rytestack/bundler",
+  "version": "0.1.0",
+  "description": "Bundling and optimization utilities for Rytestack",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --dts",
+    "dev": "tsup src/index.ts --dts --watch"
+  },
+  "keywords": ["bundling", "optimization", "tree-shaking", "code-splitting"],
+  "author": "Rytestack Team",
+  "license": "MIT",
+  "dependencies": {
+    "@rytestack/core": "workspace:*",
+    "esbuild": "^0.19.5",
+    "esbuild-plugin-bundle-analyzer": "^0.1.1",
+    "glob": "^10.3.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "tsup": "^7.2.0"
+  }
+}
