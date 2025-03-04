@@ -1,0 +1,23 @@
+{
+  "name": "@rytestack/logger",
+  "version": "0.1.0",
+  "description": "Structured logging for Rytestack applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --dts",
+    "dev": "tsup src/index.ts --dts --watch"
+  },
+  "keywords": ["logging", "structured", "json", "pino", "winston"],
+  "author": "Rytestack Team",
+  "license": "MIT",
+  "dependencies": {
+    "@rytestack/core": "workspace:*",
+    "pino": "^8.15.0",
+    "pino-pretty": "^10.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "tsup": "^7.2.0"
+  }
+}

@@ -5,7 +5,7 @@
  */
 import { Hono } from 'hono';
 import { RytestackConfig } from '@rytestack/core';
-import { createMiddlewareStack, Middleware } from '../middleware';
+import { createMiddlewareStack, Middleware, createDefaultMiddleware } from '../middleware';
 
 /**
  * Options for creating a server
@@ -30,6 +30,11 @@ export interface CreateServerOptions {
      * API handlers
      */
     apiHandlers?: Record<string, any>;
+
+    /**
+     * Whether to use default middleware
+     */
+    useDefaultMiddleware?: boolean;
 }
 
 /**
@@ -42,13 +47,23 @@ export function createServer({
                                  config,
                                  middleware = [],
                                  pageHandler,
-                                 apiHandlers = {}
+                                 apiHandlers = {},
+                                 useDefaultMiddleware = true
                              }: CreateServerOptions): Hono {
     // Create Hono app
     const app = new Hono();
 
     // Apply middleware stack
-    app.use('*', createMiddlewareStack(middleware));
+    const allMiddleware = [...middleware];
+
+    // Add default middleware if requested
+    if (useDefaultMiddleware) {
+        const defaultMiddleware = createDefaultMiddleware(config);
+        allMiddleware.unshift(...defaultMiddleware);
+    }
+
+    // Apply middleware stack
+    app.use('*', createMiddlewareStack(allMiddleware));
 
     // Register API handlers
     for (const [path, handler] of Object.entries(apiHandlers)) {

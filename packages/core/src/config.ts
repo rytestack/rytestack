@@ -1,179 +1,110 @@
-/**
- * @fileoverview Configuration types and utilities
- *
- * Defines the configuration schema and utilities for validating
- * and resolving configuration for Rytestack applications.
- */
-import { z } from 'zod';
-
-/**
- * Available frontend frameworks supported by Rytestack
- */
-export const SupportedFrameworks = ['react', 'vue', 'svelte'] as const;
-export type Framework = typeof SupportedFrameworks[number];
-
-/**
- * Available deployment targets supported by Rytestack
- */
-export const DeploymentTargets = ['cloudflare', 'vercel', 'netlify', 'node'] as const;
-export type DeploymentTarget = typeof DeploymentTargets[number];
-
-/**
- * Schema for Rytestack configuration file
- */
+// Add these to the RytestackConfigSchema
 export const RytestackConfigSchema = z.object({
-    /**
-     * The frontend framework to use (react, vue, svelte)
-     */
-    framework: z.enum(SupportedFrameworks).default('react'),
+    // ... existing config
 
     /**
-     * Root directory of the source code
+     * Logging configuration
      */
-    srcDir: z.string().default('./src'),
+    logging: z.object({
+        /**
+         * Log level
+         */
+        level: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),
+
+        /**
+         * Application name for logs
+         */
+        appName: z.string().optional(),
+
+        /**
+         * Pretty printing for development
+         */
+        pretty: z.boolean().default(true),
+
+        /**
+         * Log destination
+         */
+        destination: z.string().optional()
+    }).default({
+        level: 'info',
+        pretty: true
+    }),
 
     /**
-     * Output directory for the build
+     * Security configuration
      */
-    outDir: z.string().default('./dist'),
-
-    /**
-     * Public directory for static assets
-     */
-    publicDir: z.string().default('./public'),
-
-    /**
-     * Deployment target configuration
-     */
-    deployment: z.object({
+    security: z.object({
         /**
-         * Target platform for deployment
+         * CSRF protection configuration
          */
-        target: z.enum(DeploymentTargets).default('cloudflare'),
+        csrf: z.object({
+            /**
+             * Whether to enable CSRF protection
+             */
+            enabled: z.boolean().default(true),
 
-        /**
-         * Additional configuration specific to the deployment target
-         */
-        config: z.record(z.any()).optional()
-    }).default({}),
+            /**
+             * CSRF token cookie name
+             */
+            cookieName: z.string().default('rytestack-csrf'),
 
-    /**
-     * Server-side rendering options
-     */
-    ssr: z.object({
-        /**
-         * Enable server-side rendering
-         */
-        enabled: z.boolean().default(true),
+            /**
+             * CSRF token header name
+             */
+            headerName: z.string().default('x-csrf-token'),
 
-        /**
-         * Enable streaming SSR when supported
-         */
-        streaming: z.boolean().default(true)
-    }).default({}),
+            /**
+             * Methods to exclude from CSRF protection
+             */
+            ignoreMethods: z.array(z.string()).default(['GET', 'HEAD', 'OPTIONS']),
 
-    /**
-     * Progressive Web App configuration
-     */
-    pwa: z.object({
-        /**
-         * Enable PWA features
-         */
-        enabled: z.boolean().default(false),
+            /**
+             * Paths to exclude from CSRF protection
+             */
+            ignorePaths: z.array(z.string()).default([])
+        }).default({
+            enabled: true,
+            cookieName: 'rytestack-csrf',
+            headerName: 'x-csrf-token',
+            ignoreMethods: ['GET', 'HEAD', 'OPTIONS'],
+            ignorePaths: []
+        }),
 
         /**
-         * Manifest configuration
+         * Security headers configuration
          */
-        manifest: z.object({
-            name: z.string(),
-            short_name: z.string().optional(),
-            description: z.string().optional(),
-            theme_color: z.string().optional(),
-            background_color: z.string().optional(),
-            display: z.string().default('standalone'),
-            scope: z.string().default('/')
-        }).optional()
-    }).default({ enabled: false }),
+        headers: z.object({
+            /**
+             * Whether to enable security headers
+             */
+            enabled: z.boolean().default(true),
 
-    /**
-     * Internationalization configuration
-     */
-    i18n: z.object({
-        /**
-         * Enable i18n features
-         */
-        enabled: z.boolean().default(false),
+            /**
+             * Content Security Policy configuration
+             */
+            contentSecurityPolicy: z.boolean().or(z.record(z.any())).default(false),
 
-        /**
-         * Default locale
-         */
-        defaultLocale: z.string().default('en'),
-
-        /**
-         * Supported locales
-         */
-        locales: z.array(z.string()).default(['en']),
-
-        /**
-         * Whether to auto-detect locale from browser
-         */
-        autoDetect: z.boolean().default(true)
-    }).default({ enabled: false })
-});
-
-/**
- * Type of Rytestack configuration
- */
-export type RytestackConfig = z.infer<typeof RytestackConfigSchema>;
-
-/**
- * Default configuration values
- */
-export const DEFAULT_CONFIG: RytestackConfig = {
-    framework: 'react',
-    srcDir: './src',
-    outDir: './dist',
-    publicDir: './public',
-    deployment: {
-        target: 'cloudflare'
-    },
-    ssr: {
-        enabled: true,
-        streaming: true
-    },
-    pwa: {
-        enabled: false
-    },
-    i18n: {
-        enabled: false,
-        defaultLocale: 'en',
-        locales: ['en'],
-        autoDetect: true
-    }
-};
-
-/**
- * Load and validate configuration from a file
- *
- * @param configPath Path to the configuration file
- * @returns Validated configuration object
- */
-export async function loadConfig(configPath: string): Promise<RytestackConfig> {
-    try {
-        // Use dynamic import to load the config file
-        const userConfig = await import(configPath);
-
-        // Validate against the schema
-        const result = RytestackConfigSchema.safeParse(userConfig.default || userConfig);
-
-        if (!result.success) {
-            console.error('Invalid configuration:', result.error.format());
-            return DEFAULT_CONFIG;
+            /**
+             * HSTS configuration
+             */
+            hsts: z.boolean().or(z.record(z.any())).default(true)
+        }).default({
+            enabled: true,
+            contentSecurityPolicy: false,
+            hsts: true
+        })
+    }).default({
+        csrf: {
+            enabled: true,
+            cookieName: 'rytestack-csrf',
+            headerName: 'x-csrf-token',
+            ignoreMethods: ['GET', 'HEAD', 'OPTIONS'],
+            ignorePaths: []
+        },
+        headers: {
+            enabled: true,
+            contentSecurityPolicy: false,
+            hsts: true
         }
-
-        return result.data;
-    } catch (error) {
-        console.warn(`Could not load config from ${configPath}, using defaults`, error);
-        return DEFAULT_CONFIG;
-    }
-}
+    })
+});

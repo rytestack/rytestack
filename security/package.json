@@ -1,0 +1,24 @@
+{
+  "name": "@rytestack/security",
+  "version": "0.1.0",
+  "description": "Security utilities for Rytestack applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --dts",
+    "dev": "tsup src/index.ts --dts --watch"
+  },
+  "keywords": ["security", "csrf", "xss", "headers"],
+  "author": "Rytestack Team",
+  "license": "MIT",
+  "dependencies": {
+    "@rytestack/core": "workspace:*",
+    "@rytestack/server": "workspace:*",
+    "hono": "^3.8.2",
+    "csrf": "^3.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "tsup": "^7.2.0"
+  }
+}
