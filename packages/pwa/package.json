@@ -1,0 +1,22 @@
+{
+  "name": "@rytestack/pwa",
+  "version": "0.1.0",
+  "description": "Progressive Web App support for Rytestack framework",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --dts",
+    "dev": "tsup src/index.ts --dts --watch"
+  },
+  "keywords": ["framework", "pwa", "web", "service-worker"],
+  "author": "Rytestack Team",
+  "license": "MIT",
+  "dependencies": {
+    "@rytestack/core": "workspace:*",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "tsup": "^7.2.0"
+  }
+}
