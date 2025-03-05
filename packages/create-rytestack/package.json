@@ -1,31 +1,49 @@
 {
   "name": "create-rytestack",
   "version": "0.1.0",
-  "description": "Create a new Rytestack project",
+  "description": "Create Rytestack projects with one command",
+  "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "create-rytestack": "dist/index.js"
+    "create-rytestack": "./dist/index.js"
   },
+  "files": [
+    "dist",
+    "templates"
+  ],
   "scripts": {
-    "build": "tsup src/index.ts --dts",
-    "dev": "tsup src/index.ts --dts --watch"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "lint": "eslint src --ext .ts,.js",
+    "test": "echo \"No tests yet\""
   },
   "keywords": [
     "rytestack",
     "create",
-    "generator"
+    "scaffold",
+    "template",
+    "cli"
   ],
   "author": "Rytestack Team",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^5.3.0",
-    "commander": "^11.0.0",
-    "inquirer": "^9.2.10",
-    "ora": "^7.0.1"
+    "prompts": "^2.4.2",
+    "kolorist": "^1.8.0",
+    "minimist": "^1.2.8"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.3",
-    "typescript": "^5.2.2",
-    "tsup": "^7.2.0"
+    "@types/minimist": "^1.2.2",
+    "@types/node": "^18.16.0",
+    "@types/prompts": "^2.4.4",
+    "rimraf": "^5.0.1",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
